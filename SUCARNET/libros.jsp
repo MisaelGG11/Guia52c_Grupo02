@@ -112,7 +112,7 @@ String query = "select * from libros";
          out.println("<td>"+rs.getString("titulo")+"</td>");
          out.println("<td>"+rs.getString("editorial")+"</td>");
          out.println("<td>"+rs.getString("anio")+"</td>");
-         out.println("<td>"+"Actualizar<br>Eliminar"+"</td>");
+         out.println("<td>"+"<a href='#' onclick='actualizar("+isbn+");'>Actualizar</a ><br>Eliminar"+"</td>");
          out.println("</tr>");
          i++;
       }
@@ -123,4 +123,15 @@ String query = "select * from libros";
 }
 
 %>
+<script>
+ function actualizar(isbn){
+  document.getElementById('isbn').value = isbn
+  document.getElementById('titulo').focus()
+  document.getElementById('Actualizar').checked = true
+  document.getElementById('Crear').checked = false
+  document.getElementById('Eliminar').checked = false
+}
+
+  
+</script>
  </body>
