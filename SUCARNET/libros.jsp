@@ -7,6 +7,15 @@
  <body>
 
 <H1>MANTENIMIENTO DE LIBROS</H1>
+
+<%-- Ejercicio 3 --%>
+<form name="formbusca" action="libros.jsp" method="aeleccion">
+   ISBN a buscar:   <input type="text" name="busca-isbn" value="">
+   Titulo a buscar: <input type="text" name="busca-titulo" value="">
+   <input type="submit" name="uscar" value="BUSCAR">
+</form>
+<%-- Aquí termina el form del ejercicio 3 --%>
+
 <form action="matto.jsp" method="post" name="Actualizar">
  <table>
  <tr>
@@ -72,11 +81,25 @@ System.out.println("Error: " + e);
 ServletContext context = request.getServletContext();
 String path = context.getRealPath("/data");
 Connection conexion = getConnection(path);
+
+//Del ejercicio 3
+String ls_buscaIsbn = request.getParameter("busca-isbn");
+String ls_buscaTitulo = request.getParameter("busca-titulo");
+String query = "select * from libros";
+
    if (!conexion.isClosed()){
-out.write("OK");
+
+      //del ejercicio 3
+      if(ls_buscaIsbn != "")
+         query = "select * from libros where isbn='" + ls_buscaIsbn + "'";
+      else if(ls_buscaTitulo != "")
+         query = "select * from libros where titulo='" + ls_buscaTitulo + "'";
+
+
+   out.write("OK");
  
       Statement st = conexion.createStatement();
-      ResultSet rs = st.executeQuery("select * from libros" );
+      ResultSet rs = st.executeQuery(query);
 
       // Ponemos los resultados en un table de html
       out.println("<table border=\"1\"><tr><td>Num.</td><td>ISBN</td><td>Titulo</td><td>Editorial</td><td>Anio Publicacion</td><td>Acci�n</td></tr>");
