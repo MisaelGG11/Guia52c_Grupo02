@@ -149,7 +149,7 @@ out.write("OK");
 
  }
  
- function actualizar(isbn, titulo){
+ function actualizar(isbn){
   document.getElementById('isbn').value = isbn
   document.getElementById('titulo').focus()
   document.getElementById('Actualizar').checked = true
