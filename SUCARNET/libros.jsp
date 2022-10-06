@@ -112,7 +112,7 @@ String query = "select * from libros";
          out.println("<td>"+rs.getString("titulo")+"</td>");
          out.println("<td>"+rs.getString("editorial")+"</td>");
          out.println("<td>"+rs.getString("anio")+"</td>");
-         out.println("<td>"+"<a href='#' onclick='actualizar("+isbn+");'>Actualizar</a ><br><a href='matto.jsp?isbn="+isbn+"&Action=Eliminar'>Eliminar </a >"+"</td>");
+         out.println("<td>"+"Actualizar<br>Eliminar"+"</td>");
          out.println("</tr>");
          i++;
       }
