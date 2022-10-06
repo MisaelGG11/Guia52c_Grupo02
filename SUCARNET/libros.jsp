@@ -23,7 +23,7 @@
 </td>
   </tr>
  <tr>
- <td>T�tulo<input type="text" id="titulo" name="titulo" value="" size="50"/></td>
+ <td>Titulo<input type="text" id="titulo" name="titulo" value="" size="50"/></td>
  
  </tr>
  <tr>
@@ -44,8 +44,13 @@
    </select>
 <tr>
  <td>Anio Publicacion<input type="text" name="anio" value="" size="50"/></td>
- 
  </tr>
+   <tr>
+      <td>Autor: <input type="text" name="autor" value="" size="75"/></td>
+   </tr>
+   
+   <tr>
+
  <tr><td> Action <input type="radio" name="Action" id="Actualizar" value="Actualizar" /> Actualizar
  <input type="radio" name="Action" id="Eliminar" value="Eliminar"  > Eliminar</input>
  <input type="radio" name="Action" id ="Crear" value="Crear" checked /> Crear
@@ -102,7 +107,7 @@ String query = "select * from libros";
       ResultSet rs = st.executeQuery(query);
 
       // Ponemos los resultados en un table de html
-      out.println("<table border=\"1\"><tr><td>Num.</td><td>ISBN</td><td>Titulo</td><td>Editorial</td><td>Anio Publicacion</td><td>Acci�n</td></tr>");
+      out.println("<table border=\"1\"><tr><td>Num.</td><td>ISBN</td><td>Titulo</td><<td>Editorial</td><td>Anio Publicacion</td><td>Autor</td><td>Accion</td></tr>");
       int i=1;
       while (rs.next())
       {
@@ -112,6 +117,7 @@ String query = "select * from libros";
          out.println("<td>"+rs.getString("titulo")+"</td>");
          out.println("<td>"+rs.getString("editorial")+"</td>");
          out.println("<td>"+rs.getString("anio")+"</td>");
+         out.println("<td>"+rs.getString("autor")+"</td>");
          out.println("<td>"+"Actualizar<br>Eliminar"+"</td>");
          out.println("</tr>");
          i++;

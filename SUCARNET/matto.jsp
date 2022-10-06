@@ -7,6 +7,7 @@ String ls_isbn = request.getParameter("isbn");
 String ls_titulo = request.getParameter("titulo");
 String ls_anio = request.getParameter("anio");
 String ls_editorial = request.getParameter("editorial");
+String ls_autor =request.getParameter("autor");
 String ls_action = request.getParameter("Action");
  
 /* Paso 2) Inicializar variables */
@@ -22,10 +23,11 @@ String ls_dbdriver = "sun.jdbc.odbc.JdbcOdbcDriver";
  
 /* Paso 3) Crear query&nbsp; */
 if (ls_action.equals("Crear")) {
-ls_query = " insert into libros (isbn, titulo, editorial, anio)";
+ls_query = " insert into libros (isbn, titulo, editorial, anio,autor)";
 ls_query += " values (";
 ls_query += "'" + ls_isbn + "',";
 ls_query += "'" + ls_titulo + "',";
+ls_query +="'" +ls_autor +"'";
 ls_query += "'" + ls_editorial + "',";
 ls_query += "'" + ls_anio + "')";
 }
@@ -37,7 +39,7 @@ ls_query += "'" + ls_isbn + "'";
  
 if (ls_action.equals("Actualizar")) {
 ls_query = " update libros";
-ls_query += " set titulo= " + "'" + ls_titulo + "'" + ", anio=" + "'" + ls_anio + "'" + ", editorial=" + "'" + ls_editorial + "'";
+ls_query += " set titulo= " + "'" + ls_titulo + "'" + ", anio=" + "'" + ls_anio + "'" + ", editorial=" + "'" + ls_editorial + "'"+ ", autor=" + "'" + ls_autor + "'";
 ls_query += " where isbn = " + "'" + ls_isbn + "'";
 }
  
