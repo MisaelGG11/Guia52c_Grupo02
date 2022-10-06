@@ -17,6 +17,26 @@
  <td>T�tulo<input type="text" name="titulo" value="" size="50"/></td>
  
  </tr>
+ <tr>
+   Editorial:
+   <select name="editorial">
+      <%
+         ServletContext context1 = request.getServletContext();
+         String path1 = context1.getRealPath("/data");
+         Connection conexion1 = getConnection(path1);
+         Statement st1 = conexion1.createStatement();
+         ResultSet rs1 = st1.executeQuery("select * from editorial" );
+          while(rs1.next()){
+             out.println("<option>"+ rs1.getString("nombreEditorial")+"</option>");
+         }
+         
+      %>
+
+   </select>
+<tr>
+ <td>Anio Publicacion<input type="text" name="anio" value="" size="50"/></td>
+ 
+ </tr>
  <tr><td> Action <input type="radio" name="Action" value="Actualizar" /> Actualizar
  <input type="radio" name="Action" value="Eliminar" /> Eliminar
  <input type="radio" name="Action" value="Crear" checked /> Crear
@@ -30,9 +50,9 @@
  </form>
 <br><br>
 <%!
-public Connection getConnection() throws SQLException {
+public Connection getConnection(String path) throws SQLException {
 String driver = "sun.jdbc.odbc.JdbcOdbcDriver";
-String filePath= "c:\\Apache24\\Tomcat\\webapps\\SUCARNET\\data\\datos.mdb";
+String filePath= path + "\\datos.mdb";
 String userName="",password="";
 String fullConnectionString = "jdbc:odbc:Driver={Microsoft Access Driver (*.mdb)};DBQ=" + filePath;
 
@@ -49,7 +69,9 @@ System.out.println("Error: " + e);
 }
 %>
 <%
-Connection conexion = getConnection();
+ServletContext context = request.getServletContext();
+String path = context.getRealPath("/data");
+Connection conexion = getConnection(path);
    if (!conexion.isClosed()){
 out.write("OK");
  
@@ -57,7 +79,7 @@ out.write("OK");
       ResultSet rs = st.executeQuery("select * from libros" );
 
       // Ponemos los resultados en un table de html
-      out.println("<table border=\"1\"><tr><td>Num.</td><td>ISBN</td><td>Titulo</td><td>Acci�n</td></tr>");
+      out.println("<table border=\"1\"><tr><td>Num.</td><td>ISBN</td><td>Titulo</td><td>Editorial</td><td>Anio Publicacion</td><td>Acci�n</td></tr>");
       int i=1;
       while (rs.next())
       {
@@ -65,6 +87,8 @@ out.write("OK");
          out.println("<td>"+ i +"</td>");
          out.println("<td>"+rs.getString("isbn")+"</td>");
          out.println("<td>"+rs.getString("titulo")+"</td>");
+         out.println("<td>"+rs.getString("editorial")+"</td>");
+         out.println("<td>"+rs.getString("anio")+"</td>");
          out.println("<td>"+"Actualizar<br>Eliminar"+"</td>");
          out.println("</tr>");
          i++;
