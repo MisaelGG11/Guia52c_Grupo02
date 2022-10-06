@@ -1,21 +1,23 @@
 <%@page contentType="text/html" pageEncoding="iso-8859-1" import="java.sql.*,net.ucanaccess.jdbc.*" %>
+
+
  <html>
  <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
- <title>Actualizar, Eliminar, Crear registros.</title>
+ <title>Actualizar, Descargar, Eliminar, Crear</title>
  </head>
  <body>
 
-<H1>MANTENIMIENTO DE LIBROS</H1>
+<H1>MANTENIMIENTO DE LIBROS </H1>
 <form action="matto.jsp" method="post" name="Actualizar">
  <table>
  <tr>
- <td>ISBN<input type="text" name="isbn" value="" size="40"/>
+ <td>ISBN<input type="text" anme="isbn" value="" size="40"/>
 </td>
   </tr>
  <tr>
- <td>T�tulo<input type="text" name="titulo" value="" size="50"/></td>
- 
+ <td>Titulo<input type="text" name="titulo" value="" size="50"/></td>
+
  </tr>
  <tr><td> Action <input type="radio" name="Action" value="Actualizar" /> Actualizar
  <input type="radio" name="Action" value="Eliminar" /> Eliminar
@@ -27,16 +29,23 @@
  </form>
  </tr>
  </table>
+ <table>
+  <td><a href="listado-csv.jsp" download="Libros.csv">Descargar Listado</a>
+</td>
+ </table>
  </form>
-<br><br>
+<br>
+<br>
+
 <%!
-public Connection getConnection() throws SQLException {
+public Connection getConnection(String path) throws SQLException {
 String driver = "sun.jdbc.odbc.JdbcOdbcDriver";
-String filePath= "c:\\Apache24\\Tomcat\\webapps\\SUCARNET\\data\\datos.mdb";
+String filePath= path+"/datos.mdb";
 String userName="",password="";
 String fullConnectionString = "jdbc:odbc:Driver={Microsoft Access Driver (*.mdb)};DBQ=" + filePath;
 
     Connection conn = null;
+    String rutaRelativa = path + "\\datos.mdb";
 try{
         Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
  conn = DriverManager.getConnection(fullConnectionString,userName,password);
@@ -49,15 +58,17 @@ System.out.println("Error: " + e);
 }
 %>
 <%
-Connection conexion = getConnection();
+ServletContext context = request.getServletContext();
+
+String path = context.getRealPath("/data");
+Connection conexion = getConnection(path);
    if (!conexion.isClosed()){
 out.write("OK");
  
       Statement st = conexion.createStatement();
       ResultSet rs = st.executeQuery("select * from libros" );
-
       // Ponemos los resultados en un table de html
-      out.println("<table border=\"1\"><tr><td>Num.</td><td>ISBN</td><td>Titulo</td><td>Acci�n</td></tr>");
+      out.println("<table border=\"1\"><tr><td>Num.</td><td>ISBN</td><td>Titulo</td><td>Accion</td></tr>");
       int i=1;
       while (rs.next())
       {
@@ -74,6 +85,6 @@ out.write("OK");
       // cierre de la conexion
       conexion.close();
 }
-
 %>
+
  </body>
