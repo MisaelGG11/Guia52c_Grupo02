@@ -19,11 +19,11 @@
 <form action="matto.jsp" method="post" name="Actualizar">
  <table>
  <tr>
- <td>ISBN<input type="text" name="isbn" value="" size="40"/>
+ <td>ISBN<input type="text" id="isbn" name="isbn" value="" size="40"/>
 </td>
   </tr>
  <tr>
- <td>T�tulo<input type="text" name="titulo" value="" size="50"/></td>
+ <td>T�tulo<input type="text" id="titulo" name="titulo" value="" size="50"/></td>
  
  </tr>
  <tr>
@@ -46,9 +46,9 @@
  <td>Anio Publicacion<input type="text" name="anio" value="" size="50"/></td>
  
  </tr>
- <tr><td> Action <input type="radio" name="Action" value="Actualizar" /> Actualizar
- <input type="radio" name="Action" value="Eliminar" /> Eliminar
- <input type="radio" name="Action" value="Crear" checked /> Crear
+ <tr><td> Action <input type="radio" name="Action" id="Actualizar" value="Actualizar" /> Actualizar
+ <input type="radio" name="Action" id="Eliminar" value="Eliminar"  > Eliminar</input>
+ <input type="radio" name="Action" id ="Crear" value="Crear" checked /> Crear
   </td>
  <td><input type="SUBMIT" value="ACEPTAR" />
 </td>
