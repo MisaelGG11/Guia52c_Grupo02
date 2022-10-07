@@ -3,6 +3,7 @@
 <%
 	String ls_isbn = request.getParameter("isbn");
 	String ls_titulo = request.getParameter("titulo");
+	String ls_autor = request.getParameter("autor");
 	String ls_action = request.getParameter("action");
 	String ls_result = "Base de datos actualizada...";
 	String ls_query = "";
@@ -25,7 +26,7 @@
 		}
 
 		if (ls_action.equals("actualizar")) {
-			ls_query = "update libros set titulo= '" + ls_titulo + "' where isbn = '" + ls_isbn + "'";
+			ls_query = "update libros set titulo = '" + ls_titulo + "', autor = "+ ls_autor +" where isbn = '" + ls_isbn + "'";
 		}
 
 		try {

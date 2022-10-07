@@ -8,8 +8,8 @@
 
 body {
     display: block;
-    background-color: #e2e2e2;
-    width: 100%;
+    background-color: #b8a9fc;
+    min-width: 100%;
     min-height: 100px;
 }
 
@@ -17,7 +17,7 @@ body {
 
 form {
     display: inline-flex;
-    margin: auto 15px;
+    margin: 0 15px;
 }
 
 .white {
@@ -28,7 +28,7 @@ form {
 .styled-table-form {
     border-collapse: collapse;
     background-color: whitesmoke;
-    margin: 25px auto;
+    margin: 10px auto;
     font-size: 1em;
     font-family: sans-serif;
     min-width: 450px;
@@ -103,15 +103,24 @@ form {
 }
 
 /* Contenedores*/
+.container-pl {
+    display: block;
+    min-height: 100px;
+    background-color: #a4cfdb;
+}
+
 .container-li {
     display: flex;
-    background-color: #91e5ff;
+    overflow: scroll;
+    background-color: #bec8ff;
     align-items: center;
     border-bottom: solid 2px whitesmoke;
 }
 
 .container-tb {
-    display: flex;
+    display: block;
+    max-height: 500px;
+    overflow: scroll;
 }
 
 .button {
@@ -150,4 +159,9 @@ form {
 
 label {
     margin: 2px 10px;
+}
+
+.input-text {
+    padding: 2px 5px;
+    width: 300px;
 }
