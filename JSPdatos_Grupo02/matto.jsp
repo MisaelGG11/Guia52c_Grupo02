@@ -20,7 +20,7 @@
 		String fullConnectionString = "jdbc:odbc:Driver={Microsoft Access Driver (*.mdb)};DBQ=" + filePath;
 
 		if (ls_action.equals("crear")) {
-			ls_query = " insert into libros (isbn, titulo, editorial, anio) values ('" + ls_isbn + "', '" + ls_titulo + "', '" + ls_editorial + "', '" + ls_anio + "', '" + ls_autor + "' )";
+			ls_query = " insert into libros (isbn, titulo, editorial, anio, autor) values ('" + ls_isbn + "', '" + ls_titulo + "', '" + ls_editorial + "', '" + ls_anio + "', '" + ls_autor + "' )";
 		}
 
 		if (ls_action.equals("eliminar")){

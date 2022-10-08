@@ -176,10 +176,10 @@ label {
     width: 210px;
 }
 
-input:valid {
+.input-text:valid {
     border-bottom: solid 2px green;
 }
 
-input:invalid {
+.input-text:invalid {
     border-bottom: solid 2px red;
 }

@@ -57,17 +57,17 @@
 										rs = st.executeQuery(query);
 										rs.next();
 										editorial_item = rs.getString("editorial");
-										out.println("<tr><td><label>ISBN:</label><input id=\"input-isbn\" name=\"isbn\" class=\"input-text\" type=\"text\" value=\""+ rs.getString("isbn") + "\"/></td></tr>");
-										out.println("<tr><td><label>Título:</label><input id=\"input-titulo\" name=\"titulo\" class=\"input-text\" type=\"text\" value=\""+ rs.getString("titulo") + "\"/></td></tr>");
-										out.println("<tr><td><label>Autor:</label><input id=\"input-titulo\" name=\"autor\" class=\"input-text\" type=\"text\" value=\""+ rs.getString("autor") + "\"/></td></tr>");
-										out.println("<tr><td><label>Año:</label><input id=\"input-anio\" name=\"anio\" class=\"input-text\" type=\"number\" min=\"1900\" max=\"2099\" step=\"1\" value=\""+ rs.getString("anio") + "\"/></td></tr>");
+										out.println("<tr><td><label>ISBN:</label><input id=\"input-isbn\" name=\"isbn\" class=\"input-text\" type=\"text\" value=\""+ rs.getString("isbn") + "\" pattern=\"[0-9]+\" minlength=\"13\" maxlength=\"13\" title=\"Entrada Invalida!\" required=\"true\" placeholder=\"0000-0000-0000-0\" onkeyup=\"evaluarCampos()\"/></td></tr>");
+										out.println("<tr><td><label>Título:</label><input id=\"input-titulo\" name=\"titulo\" class=\"input-text\" type=\"text\" value=\""+ rs.getString("titulo") + "\" pattern=\"[a-zA-Z ]{3,32}\" minlength=\"3\" maxlength=\"32\" title=\"Entrada Invalida!\" required=\"true\" placeholder=\"La Odisea\" onkeyup=\"evaluarCampos()\"/></td></tr>");
+										out.println("<tr><td><label>Autor:</label><input id=\"input-autor\" name=\"autor\" class=\"input-text\" type=\"text\" value=\""+ rs.getString("autor") + "\" pattern=\"[a-zA-Z ]{3,32}\" minlength=\"3\" maxlength=\"32\" title=\"Entrada Invalida!\" required=\"true\" placeholder=\"Omero\" onkeyup=\"evaluarCampos()\"/></td></tr>");
+										out.println("<tr><td><label>Año:</label><input id=\"input-anio\" name=\"anio\" class=\"input-text\" type=\"number\" step=\"1\" value=\""+ rs.getString("anio") + "\" pattern=\"[0-9]+\" minlength=\"4\" maxlength=\"4\" title=\"Entrada Invalida!\" required=\"true\" placeholder=\"1901\" onkeyup=\"evaluarCampos()\"/></td></tr>");
 									}
 								}
 								else {
-									out.println("<tr><td><label>ISBN:</label><input type=\"text\" id=\"input-isbn\" name=\"isbn\" class=\"input-text\" value=\"\" disabled/></td></tr>");
-									out.println("<tr><td><label>Título:</label><input type=\"text\" id=\"input-titulo\" name=\"titulo\" class=\"input-text\" value=\"\" disabled/></td></tr>");
-									out.println("<tr><td><label>Autor:</label><input type=\"text\" id=\"input-titulo\" name=\"autor\" class=\"input-text\" value=\"\" disabled/></td></tr>");
-									out.println("<tr><td><label>Año:</label><input type=\"text\" id=\"input-anio\" name=\"anio\" class=\"input-text\" min=\"1900\" max=\"2099\" step=\"1\" value=\"\" disabled/></td></tr>");
+									out.println("<tr><td><label>ISBN:</label><input id=\"input-isbn\" name=\"isbn\" class=\"input-text\" type=\"text\" value=\"\" pattern=\"[0-9]+\" minlength=\"13\" maxlength=\"13\" title=\"Entrada Invalida!\" required=\"true\" placeholder=\"0000-0000-0000-0\" onkeyup=\"evaluarCampos()\"/></td></tr>");
+									out.println("<tr><td><label>Título:</label><input id=\"input-titulo\" name=\"titulo\" class=\"input-text\" type=\"text\" value=\"\" pattern=\"[a-zA-Z ]{3,32}\" minlength=\"3\" maxlength=\"32\" title=\"Entrada Invalida!\" required=\"true\" placeholder=\"La Odisea\" onkeyup=\"evaluarCampos()\"/></td></tr>");
+									out.println("<tr><td><label>Autor:</label><input id=\"input-autor\" name=\"autor\" class=\"input-text\" type=\"text\" value=\"\" pattern=\"[a-zA-Z ]{3,32}\" minlength=\"3\" maxlength=\"32\" title=\"Entrada Invalida!\" required=\"true\" placeholder=\"Omero\" onkeyup=\"evaluarCampos()\"/></td></tr>");
+									out.println("<tr><td><label>Año:</label><input id=\"input-anio\" name=\"anio\" class=\"input-text\" type=\"number\" step=\"1\" value=\"\" pattern=\"[0-9]+\" minlength=\"4\" maxlength=\"4\" title=\"Entrada Invalida!\" required=\"true\" placeholder=\"1901\" onkeyup=\"evaluarCampos()\"/></td></tr>");
 								}
 							%>
 							<tr>
@@ -78,10 +78,10 @@
 
 										if (request.getParameter("isbn") != null) {
 											out.println("<select id=\"input-editorial\" name=\"editorial\">");
-											out.println("<option>"+ editorial_item + "</option>");
+											out.println("<option select=\"true\">"+ editorial_item + "</option>");
 										}
 										else {
-											out.println("<select id=\"input-editorial\" name=\"editorial\" disabled>");
+											out.println("<select id=\"input-editorial\" name=\"editorial\">");
 										}
 
 										if (!conexion.isClosed()){
@@ -103,14 +103,16 @@
 										if(request.getParameter("isbn") != null) {
 											out.println("<input type=\"radio\" name=\"action\" value=\"actualizar\" checked/><label>Actualizar</label>");
 											out.println("<input type=\"radio\" name=\"action\" value=\"crear\"/><label>Crear</label>");
+											out.println("<input type=\"radio\" name=\"action\" value=\"eliminar\"/><label>Eliminar</label>");
+											out.println("<input id=\"btn-actualizar\" type=\"submit\" class=\"button\" value=\"Actualizar\"");
 										}
 										else {
 											out.println("<input type=\"radio\" name=\"action\" value=\"actualizar\"/><label>Actualizar</label>");
 											out.println("<input type=\"radio\" name=\"action\" value=\"crear\" checked/><label>Crear</label>");
+											out.println("<input type=\"radio\" name=\"action\" value=\"eliminar\"/><label>Eliminar</label>");
+											out.println("<input id=\"btn-actualizar\" type=\"submit\" class=\"button\" value=\"Actualizar\" disabled=\"true\"/>");
 										}
 									%>
-									<input type="radio" name="action" value="eliminar"/><label>Eliminar</label>
-									<input type="submit" class="button" value="Actualizar"/>
 								</td>
 							</tr>
 						</tbody>
@@ -124,13 +126,13 @@
 							</td>
 							<tr>
 								<td>
-									<label>ISBN:</label><input type="text" id="buscar-isbn" name="buscar_isbn" value="" class="input-text" pattern="[0-9]+" minlength="3" maxlength="13" title="Entrada Invalida!" required="true"/>
+									<label>ISBN:</label><input type="text" id="buscar-isbn" name="buscar_isbn" value="" class="input-text" pattern="[0-9]+" minlength="3" maxlength="13" title="Entrada Invalida!" required="true" placeholder="0000-0000-0000-0" onkeyup="cambiarEstado()"/>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<label>Titulo:</label><input type="text" id="buscar-titulo" name="buscar_titulo" value="" class="input-text" pattern="[a-zA-Z ]{3,32}" minlength="3" maxlength="32" title="Entrada Invalida!" required="true"/>
-									<input class="button" type="submit" value="Buscar"/>
+									<label>Titulo:</label><input type="text" id="buscar-titulo" name="buscar_titulo" value="" class="input-text" pattern="[a-zA-Z ]{0,32}" minlength="0" maxlength="32" title="Entrada Invalida!" placeholder="Titulo Libro" onkeyup="cambiarEstado()"/>
+									<input id= "btn-buscar" class="button" type="submit" value="Buscar" disabled="true"/>
 								</td>
 							</tr>
 						</tbody>

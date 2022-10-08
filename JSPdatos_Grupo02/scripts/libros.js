@@ -21,14 +21,32 @@ function busqueda(src) {
     document.querySelector('#form-buscar').setAttribute('action', 'libros.jsp?buscar_isbn=' + src.value)
 }
 
-function actualizar() {
+function evaluarCampos() {
 
-    isbn = document.querySelector('#input-isbn').getAttribute('value')
-    titulo = document.querySelector('#input-titulo').getAttribute('value')
-    autor = document.querySelector('#input-autor').getAttribute('value')
-    editorial = document.querySelector('#input-editorial').getAttribute('value')
-    anio = document.querySelector('#input-anio').getAttribute('value')
+    const isbn = document.querySelector('#input-isbn')
+    const titulo = document.querySelector('#input-titulo')
+    const autor = document.querySelector('#input-autor')
+    const anio = document.querySelector('#input-anio')
+    const boton = document.querySelector("#btn-actualizar")
 
-    document.querySelector('#form-actualizar').setAttribute('action','libros.jsp?isbn=' + isbn + '&titulo=' + titulo + '&autor' + autor + '&editorial=' + editorial + '&anio=' + anio)
+    console.log(isbn.value)
+    if (!(isbn.value.trim() === "") && !(titulo.value.trim() === "") && !(autor.value.trim() === "") && !(anio.value.trim() === "")) {
+        boton.removeAttribute('disabled')
+    }
+    else {
+        boton.setAttribute('disabled', 'true')
+    }
+}
 
+function cambiarEstado() {
+    const componente_1 = document.querySelector("#buscar-isbn")
+    const componente_2 = document.querySelector("#buscar-titulo")
+    const boton = document.querySelector("#btn-buscar")
+
+    if (!(componente_1.value.trim() === "")) {
+        boton.removeAttribute('disabled')
+    }
+    else if(componente_2.value.trim() === "") {
+        boton.setAttribute('disabled', 'true')
+  }
 }
