@@ -8,7 +8,7 @@
 
 body {
     display: block;
-    background-color: #b8a9fc;
+    background-color: #ffffff;
     min-width: 100%;
     min-height: 100px;
 }
@@ -46,7 +46,7 @@ form {
 }
 
 .styled-table-form th, .styled-table-form td {
-    padding: 12px 15px;
+    padding: 5px 15px;
 }
 
 .styled-table-form tbody tr {
@@ -106,7 +106,7 @@ form {
 .container-pl {
     display: block;
     min-height: 100px;
-    background-color: #a4cfdb;
+    background-color: #dddddd;
 }
 
 .container-li {
@@ -119,13 +119,14 @@ form {
 
 .container-tb {
     display: block;
-    max-height: 500px;
+    max-height: 450px;
     overflow: scroll;
 }
 
 .button {
     padding: 15px 25px;
     margin: 3px;
+    float: right;
     color: #ffffff;
     font-weight: bold;
     border: solid 2px ghostwhite;
@@ -136,6 +137,15 @@ form {
 .button:hover {
     cursor: pointer;
     background-color: crimson;
+}
+
+.button:disabled {
+    background-color: gray;
+}
+
+.button:hover:disabled {
+    cursor: pointer;
+    background-color: lightgray;
 }
 
 .name-form {
@@ -163,5 +173,13 @@ label {
 
 .input-text {
     padding: 2px 5px;
-    width: 300px;
+    width: 210px;
+}
+
+input:valid {
+    border-bottom: solid 2px green;
+}
+
+input:invalid {
+    border-bottom: solid 2px red;
 }

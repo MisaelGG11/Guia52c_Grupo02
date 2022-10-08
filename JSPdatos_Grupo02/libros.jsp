@@ -1,6 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" import="java.sql.*, net.ucanaccess.jdbc.*" %>
 <%
-	String query = "", orden_th = "asc";
+	String query = "", orden_th = "asc", editorial_item = "";
 	ServletContext context = request.getServletContext();
 	String path = context.getRealPath("/data");
 	Connection conexion = getConnection(path);
@@ -56,32 +56,42 @@
 									if (!conexion.isClosed()){
 										rs = st.executeQuery(query);
 										rs.next();
-										out.println("<tr><td><label>ISBN:</label><input id=\"input-isbn\" class=\"input-text\" type=\"text\" name=\"input-isbn\" value=\""+ rs.getString("isbn") + "\"/></td></tr>");
-										out.println("<tr><td><label>Título:</label><input id=\"input-titulo\" class=\"input-text\" type=\"text\" name=\"input-titulo\" value=\""+ rs.getString("titulo") + "\"/></td></tr>");
-										out.println("<tr><td><label>Autor:</label><input id=\"input-titulo\" class=\"input-text\" type=\"text\" name=\"input-titulo\" value=\""+ rs.getString("autor") + "\"/></td></tr>");
+										editorial_item = rs.getString("editorial");
+										out.println("<tr><td><label>ISBN:</label><input id=\"input-isbn\" name=\"isbn\" class=\"input-text\" type=\"text\" value=\""+ rs.getString("isbn") + "\"/></td></tr>");
+										out.println("<tr><td><label>Título:</label><input id=\"input-titulo\" name=\"titulo\" class=\"input-text\" type=\"text\" value=\""+ rs.getString("titulo") + "\"/></td></tr>");
+										out.println("<tr><td><label>Autor:</label><input id=\"input-titulo\" name=\"autor\" class=\"input-text\" type=\"text\" value=\""+ rs.getString("autor") + "\"/></td></tr>");
+										out.println("<tr><td><label>Año:</label><input id=\"input-anio\" name=\"anio\" class=\"input-text\" type=\"number\" min=\"1900\" max=\"2099\" step=\"1\" value=\""+ rs.getString("anio") + "\"/></td></tr>");
 									}
 								}
 								else {
-									out.println("<tr><td><label>ISBN:</label><input id=\"input-isbn\" class=\"input-text\" type=\"text\" name=\"input-isbn\" value=\"\"/></td></tr>");
-									out.println("<tr><td><label>Título:</label><input id=\"input-titulo\" class=\"input-text\" type=\"text\" name=\"input-titulo\" value=\"\"/></td></tr>");
-									out.println("<tr><td><label>Autor:</label><input id=\"input-titulo\" class=\"input-text\" type=\"text\" name=\"input-titulo\" value=\"\"/></td></tr>");
+									out.println("<tr><td><label>ISBN:</label><input type=\"text\" id=\"input-isbn\" name=\"isbn\" class=\"input-text\" value=\"\" disabled/></td></tr>");
+									out.println("<tr><td><label>Título:</label><input type=\"text\" id=\"input-titulo\" name=\"titulo\" class=\"input-text\" value=\"\" disabled/></td></tr>");
+									out.println("<tr><td><label>Autor:</label><input type=\"text\" id=\"input-titulo\" name=\"autor\" class=\"input-text\" value=\"\" disabled/></td></tr>");
+									out.println("<tr><td><label>Año:</label><input type=\"text\" id=\"input-anio\" name=\"anio\" class=\"input-text\" min=\"1900\" max=\"2099\" step=\"1\" value=\"\" disabled/></td></tr>");
 								}
 							%>
 							<tr>
 								<td>
 									<label>Editorial:</label>
-									<select name="editorial">
 									<%
-											query = "select * from editorial";
+										query = "select * from editorial";
 
-											if (!conexion.isClosed()){
-												
-												rs = st.executeQuery(query);
+										if (request.getParameter("isbn") != null) {
+											out.println("<select id=\"input-editorial\" name=\"editorial\">");
+											out.println("<option>"+ editorial_item + "</option>");
+										}
+										else {
+											out.println("<select id=\"input-editorial\" name=\"editorial\" disabled>");
+										}
 
-												while(rs.next()){
-													out.println("<option>"+ rs.getString("nombreEditorial")+"</option>");
-												}
+										if (!conexion.isClosed()){
+
+											rs = st.executeQuery(query);
+
+											while(rs.next()){
+												out.println("<option>"+ rs.getString("nombreEditorial") + "</option>");
 											}
+										}
 									%>
 									</select>
 								</td>
@@ -91,16 +101,16 @@
 									<h4>Opciones</h4>
 									<% 
 										if(request.getParameter("isbn") != null) {
-											out.println("<input type=\"radio\" name=\"Action\" value=\"Actualizar\" checked/><label>Actualizar</label>");
-											out.println("<input type=\"radio\" name=\"Action\" value=\"Crear\"/><label>Crear</label>");
+											out.println("<input type=\"radio\" name=\"action\" value=\"actualizar\" checked/><label>Actualizar</label>");
+											out.println("<input type=\"radio\" name=\"action\" value=\"crear\"/><label>Crear</label>");
 										}
 										else {
-											out.println("<input type=\"radio\" name=\"Action\" value=\"Actualizar\"/><label>Actualizar</label>");
-											out.println("<input type=\"radio\" name=\"Action\" value=\"Crear\" checked/><label>Crear</label>");
+											out.println("<input type=\"radio\" name=\"action\" value=\"actualizar\"/><label>Actualizar</label>");
+											out.println("<input type=\"radio\" name=\"action\" value=\"crear\" checked/><label>Crear</label>");
 										}
 									%>
-									<input type="radio" name="Action" value="Eliminar"/><label>Eliminar</label>
-									<input class="button" type="SUBMIT" value="Actualizar" />
+									<input type="radio" name="action" value="eliminar"/><label>Eliminar</label>
+									<input type="submit" class="button" value="Actualizar"/>
 								</td>
 							</tr>
 						</tbody>
@@ -114,15 +124,13 @@
 							</td>
 							<tr>
 								<td>
-									<label>ISBN:</label><input id="buscar-isbn" type="text" name="buscar-isbn" value="" onchange="busqueda(this)"/>
+									<label>ISBN:</label><input type="text" id="buscar-isbn" name="buscar_isbn" value="" class="input-text" pattern="[0-9]+" minlength="3" maxlength="13" title="Entrada Invalida!" required="true"/>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<label>Titulo:</label><input id="buscar-titulo" type="text" name="busca-titulo" value=""/>
-									<td>
-										<input class="button" type="SUBMIT" value="Buscar"/>
-									</td>
+									<label>Titulo:</label><input type="text" id="buscar-titulo" name="buscar_titulo" value="" class="input-text" pattern="[a-zA-Z ]{3,32}" minlength="3" maxlength="32" title="Entrada Invalida!" required="true"/>
+									<input class="button" type="submit" value="Buscar"/>
 								</td>
 							</tr>
 						</tbody>
@@ -168,7 +176,7 @@
 			<div class="container-tb">
 				<!--SCRIPTS-->
 				<%
-					// Consulta inicial
+					// Consulta para obtener todos los datos
 					query = "select * from libros ";
 
 					if (request.getParameter("ordenar_por") != null && request.getParameter("orden") != null) {
@@ -183,12 +191,8 @@
 						}
 					}
 
-					if(request.getParameter("buscar_isbn") != null) {
-						query = "select * from libros where isbn like'" + request.getParameter("buscar_isbn") + "%'";
-					}
-
-					if(request.getParameter("buscar_titulo") != null) {
-						query = "select * from libros where titulo='" + request.getParameter("buscar_titulo") + "%'";
+					if(request.getParameter("buscar_isbn") != null || request.getParameter("buscar_titulo") != null ) {
+						query = "select * from libros where isbn like'" + request.getParameter("buscar_isbn") + "%' and titulo like'" + request.getParameter("buscar_titulo") + "%'";
 					}
 
 					if (!conexion.isClosed()){
@@ -201,9 +205,10 @@
 							"<th><a id=\"th-titulo\" class=\"white\" href=\"libros.jsp?ordenar_por=titulo&orden=" + orden_th + "\">Título<img class=\"order\" title=\"titulo\" src=\"resources/order_by.svg\"/></a></th>" +
 							"<th><a id=\"th-autor\" class=\"white\" href=\"libros.jsp?ordenar_por=autor&orden=" + orden_th + "\">Autor<img class=\"order\" title=\"autor\" src=\"resources/order_by.svg\"/></a></th>" +
 							"<th><a id=\"th-editorial\" class=\"white\" href=\"libros.jsp?ordenar_por=editorial&orden=" + orden_th + "\">Editorial<img class=\"order\" title=\"autor\" src=\"resources/order_by.svg\"/></a></th>" +
+							"<th><a id=\"th-anio\" class=\"white\" href=\"libros.jsp?ordenar_por=anio&orden=" + orden_th + "\">Año<img class=\"order\" title=\"autor\" src=\"resources/order_by.svg\"/></a></th>" +
 							"<th>Acción</th></tr></thead>");
 
-						String isbn = "", titulo = "", editorial = "", autor = "";
+						String isbn = "", titulo = "", editorial = "", autor = "", anio = "";
 						int i = 1;
 
 						while (rs.next()) {
@@ -212,13 +217,14 @@
 							titulo = rs.getString("titulo");
 							autor = rs.getString("autor");
 							editorial = rs.getString("editorial");
-
+							anio = rs.getString("anio");
 							out.println("<tr>");
 							out.println("<td>"+ i +"</td>");
 							out.println("<td>" + isbn + "</td>");
 							out.println("<td>" + titulo + "</td>");
 							out.println("<td> " + autor + " </td>");
 							out.println("<td>" + editorial + "</td>");
+							out.println("<td>" + anio + "</td>");
 							out.println("<td><boton><a href=\"libros.jsp?isbn=" + isbn + "\">Actualizar</a><br><a href=\"matto.jsp?isbn="+ isbn +"&action=eliminar\">Eliminar</a ></td>");
 
 							out.println("</tr>");
